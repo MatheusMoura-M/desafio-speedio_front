@@ -117,7 +117,7 @@ const custonTheme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: "#F7F7F7",
+        bg: "#FFF",
       },
     },
   },
