@@ -1,6 +1,9 @@
 import * as yup from "yup";
-import { iLink } from "../interface";
+import { iLinkRequest } from "../interface";
 
-export const shortenLinkSchema: yup.SchemaOf<iLink> = yup.object().shape({
-  link: yup.string().required("Campo obrigatório"),
-});
+export const shortenLinkSchema: yup.SchemaOf<iLinkRequest> = yup
+  .object()
+  .shape({
+    original_link: yup.string().required("Campo obrigatório"),
+    title: yup.string().required("Campo obrigatório"),
+  });
