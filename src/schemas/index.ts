@@ -1,5 +1,10 @@
 import * as yup from "yup";
-import { iLinkRequest, iUserLogin, iUserRequest } from "../interface";
+import {
+  iLinkRequest,
+  iLinkUpdate,
+  iUserLogin,
+  iUserRequest,
+} from "../interface";
 
 export const shortenLinkSchema: yup.SchemaOf<iLinkRequest> = yup
   .object()
@@ -23,4 +28,8 @@ export const registerSchema: yup.SchemaOf<iUserRequest> = yup.object().shape({
     .email("Deve ser um email válido")
     .required("Campo obrigatório"),
   password: yup.string().required("Campo obrigatório"),
+});
+
+export const editLinkSchema: yup.SchemaOf<iLinkUpdate> = yup.object().shape({
+  title: yup.string().required("Campo obrigatório"),
 });

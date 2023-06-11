@@ -1,8 +1,23 @@
-import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Menu,
+  MenuButton,
+  MenuList,
+  Show,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import ModalLogin from "../Modals/Login";
 import ModalRegister from "../Modals/Register";
+import { useAuth } from "../../context/webContext";
+import ModalLinks from "../Modals/Links/listLinks";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Header = () => {
+  const { getUserLinks } = useAuth();
+
   const {
     isOpen: isOpenLogin,
     onOpen: onOpenLogin,
@@ -12,6 +27,11 @@ const Header = () => {
     isOpen: isOpenRegister,
     onOpen: onOpenRegister,
     onClose: onCloseRegister,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenLinks,
+    onOpen: onOpenLinks,
+    onClose: onCloseLinks,
   } = useDisclosure();
 
   return (
@@ -27,7 +47,13 @@ const Header = () => {
       borderColor={"grey.5"}
     >
       <Flex h={"100%"} w={"95%"} justifyContent={"space-between"}>
-        <Flex alignItems={"center"} justifyContent={"center"} minW={180}>
+        <Flex
+          alignItems={"center"}
+          justifyContent={"flex-start"}
+          minW={"60%"}
+          w={"50%"}
+          gap={"1rem"}
+        >
           <Text
             minW={150}
             h={40.1}
@@ -38,9 +64,23 @@ const Header = () => {
           >
             Link Shortener
           </Text>
+          <Text
+            minW={150}
+            h={"max-content"}
+            textAlign={"center"}
+            fontSize={"17px"}
+            fontWeight={400}
+            cursor={"pointer"}
+            onClick={() => {
+              onOpenLinks();
+              getUserLinks();
+            }}
+          >
+            Meus links
+          </Text>
         </Flex>
         <Flex
-          w={"50%"}
+          w={"40%"}
           minW={130}
           minH={"90%"}
           alignItems={"center"}
@@ -83,6 +123,7 @@ const Header = () => {
         isOpen={isOpenRegister}
         onOpen={onOpenLogin}
       />
+      <ModalLinks onClose={onCloseLinks} isOpen={isOpenLinks} />
     </Box>
   );
 };

@@ -41,6 +41,7 @@ export interface iAuthProviderData {
   currentLink: iLinkResponse;
   setCurrentLink: Dispatch<SetStateAction<iLinkResponse>>;
   getAllLinks: () => Promise<void>;
+  getUserLinks: () => Promise<void>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -77,7 +78,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const GetUserLinks = async () => {
+  const getUserLinks = async () => {
     if (token) {
       try {
         const resp = await api.get(`/user/links`, {
@@ -196,7 +197,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           },
         });
         setCurrentLink(resp.data);
-        GetUserLinks();
+        getUserLinks();
       } else {
         const resp = await api.post("/link", data);
         setCurrentLink(resp.data);
@@ -231,6 +232,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           autoClose: 1000,
         });
       }
+    } finally {
+      getUserLinks();
     }
   };
 
@@ -266,6 +269,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           autoClose: 1000,
         });
       }
+    } finally {
+      getUserLinks();
     }
   };
 
@@ -293,6 +298,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         allLinks,
         getAllLinks,
         setAllLinks,
+        getUserLinks,
       }}
     >
       {children}

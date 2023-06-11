@@ -75,7 +75,6 @@ export const Home = () => {
                   <Text
                     as={"span"}
                     maxW={"max-content"}
-                    // w={230}
                     display={"inline-block"}
                     color={"gray.900"}
                     fontWeight={400}
