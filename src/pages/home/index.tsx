@@ -35,8 +35,12 @@ export const Home = () => {
           pl={{ base: 0, md1: "4rem" }}
           flexDir={"column"}
         >
-          <VStack alignItems={"flex-start"} minH={200}>
-            <Text fontWeight={700} fontSize={"44px"}>
+          <VStack alignItems={"flex-start"} minH={{ base: 235, xs1: 200 }}>
+            <Text
+              fontWeight={700}
+              fontSize={"44px"}
+              lineHeight={{ base: "56px", xsm2: "66px" }}
+            >
               More readable and practical
             </Text>
             <Text fontWeight={400} color={"grey"} fontSize={"20px"}>

@@ -17,12 +17,13 @@ import {
 import { useState } from "react";
 import { iLinkResponse, iStatusModal } from "../../../interface";
 import { useAuth } from "../../../context/webContext";
-import { LinkIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { LinkIcon, EditIcon, DeleteIcon, CopyIcon } from "@chakra-ui/icons";
 import ModalEditLinks from "./editLinks";
 
 const ModalLinks = ({ isOpen, onClose }: iStatusModal) => {
   const { allLinksByUser, onDeleteShortenedLink } = useAuth();
   const [currentLink, setCurrentLink] = useState({} as iLinkResponse);
+  const [activeCopy, setActiveCopy] = useState(false);
 
   const {
     onOpen: onOpenEdit,
@@ -125,6 +126,61 @@ const ModalLinks = ({ isOpen, onClose }: iStatusModal) => {
                               fontWeight={400}
                             >
                               {link.shortened_link}
+                            </Text>{" "}
+                            &nbsp;
+                            <Text
+                              as={"span"}
+                              position={"relative"}
+                              display={"inline-block"}
+                            >
+                              <CopyIcon
+                                cursor={"pointer"}
+                                transition={".3s"}
+                                _hover={{
+                                  transform: "scale(1.1)",
+                                  transition: ".3s",
+                                }}
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    window.location.href + link.shortened_link
+                                  );
+                                  setActiveCopy(true);
+                                  setCurrentLink(link);
+                                  setTimeout(() => {
+                                    setActiveCopy(false);
+                                  }, 800);
+                                }}
+                              />
+                              <Text
+                                as={"span"}
+                                display={
+                                  activeCopy && currentLink.id == link.id
+                                    ? "flex"
+                                    : "none"
+                                }
+                                color={"black"}
+                                fontWeight={700}
+                                fontSize={"12px"}
+                                bg={"white"}
+                                px={1}
+                                borderTopRadius={"10px"}
+                                borderEndRadius={"10px"}
+                                position={"absolute"}
+                                top={"-10px"}
+                                right={"-50px"}
+                              >
+                                Copiado
+                              </Text>
+                            </Text>
+                          </Text>
+                          <Text color={"grey.0"} fontWeight={500}>
+                            Visitas:{" "}
+                            <Text
+                              as={"span"}
+                              color={"gray.900"}
+                              fontWeight={400}
+                            >
+                              {link.visits}
                             </Text>
                           </Text>
                         </Flex>

@@ -18,6 +18,7 @@ import { api } from "../services/api";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { MenuItem, useDisclosure } from "@chakra-ui/react";
 
 export interface iAuthProviderData {
   navigate: NavigateFunction;
@@ -42,6 +43,17 @@ export interface iAuthProviderData {
   setCurrentLink: Dispatch<SetStateAction<iLinkResponse>>;
   getAllLinks: () => Promise<void>;
   getUserLinks: () => Promise<void>;
+  MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
+  isOpenLogin: boolean;
+  onOpenLogin: () => void;
+  onCloseLogin: () => void;
+  isOpenRegister: boolean;
+  onOpenRegister: () => void;
+  onCloseRegister: () => void;
+  isOpenLinks: boolean;
+  onOpenLinks: () => void;
+  onCloseLinks: () => void;
+  token: string | null;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -51,6 +63,8 @@ export const AuthContext = createContext<iAuthProviderData>(
 export const AuthProvider = ({ children }: iProviderProps) => {
   const token = localStorage.getItem("@token");
   const navigate = useNavigate();
+
+  // States
   const [isLogged, setIsLogged] = useState(false);
   const [userLogged, setUserLogged] = useState<iUserResponse>(
     {} as iUserResponse
@@ -59,6 +73,24 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [allLinks, setAllLinks] = useState([] as iLinkResponse[]);
   const [allLinksByUser, setAllLinksByUser] = useState([] as iLinkResponse[]);
 
+  // Disclosure
+  const {
+    isOpen: isOpenLogin,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRegister,
+    onOpen: onOpenRegister,
+    onClose: onCloseRegister,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenLinks,
+    onOpen: onOpenLinks,
+    onClose: onCloseLinks,
+  } = useDisclosure();
+
+  // Functions
   const getUserProfile = async () => {
     try {
       const resp = await api.get("/user/profile", {
@@ -274,6 +306,48 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
+  const MenuHamburguer = ({ children }: iProviderProps) => (
+    <MenuItem
+      display={{ base: "flex", sm2: "none" }}
+      alignSelf={"center"}
+      justifyContent={"center"}
+      bg={"gray.200"}
+      color={"#0B0D0D"}
+      border={"2px solid"}
+      borderColor={"#ADB5BD"}
+      borderRadius={".3rem"}
+      my={".5rem"}
+      py={"1rem"}
+      w={"90%"}
+      h={"48px"}
+      fontWeight={500}
+      _hover={{
+        bg: "gray.300",
+        transition: "0.3s",
+      }}
+      transition={"0.3s"}
+      onClick={
+        children === "Meus links"
+          ? () => {
+              onOpenLinks();
+              getUserLinks();
+            }
+          : children === "Entrar"
+          ? onOpenLogin
+          : children === "Registrar"
+          ? onOpenRegister
+          : () => {
+              localStorage.removeItem("@token");
+              setIsLogged(false);
+              setUserLogged({} as iUserResponse);
+              navigate("/");
+            }
+      }
+    >
+      {children}
+    </MenuItem>
+  );
+
   return (
     <AuthContext.Provider
       value={{
@@ -299,6 +373,17 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         getAllLinks,
         setAllLinks,
         getUserLinks,
+        MenuHamburguer,
+        isOpenLogin,
+        isOpenRegister,
+        onCloseLogin,
+        onCloseRegister,
+        onOpenLogin,
+        onOpenRegister,
+        onCloseLinks,
+        isOpenLinks,
+        onOpenLinks,
+        token,
       }}
     >
       {children}

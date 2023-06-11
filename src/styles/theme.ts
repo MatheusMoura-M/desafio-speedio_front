@@ -2,7 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 
 const breakpoints = {
   xs: "21.3em", // 340px
-  xs1: "23.43em", // 375px
+  xs1: "22.0625em", // 353px
   xs2: "25em", // 400px
   xs3: "27.37em", // 438px
   sm: "30em", // 480px
