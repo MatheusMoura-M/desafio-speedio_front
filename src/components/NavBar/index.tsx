@@ -1,26 +1,22 @@
-import { Search2Icon } from "@chakra-ui/icons";
-import { Box, Button, Flex, HStack, Input, Text } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import ModalLogin from "../Modals/Login";
+import ModalRegister from "../Modals/Register";
 
 const Header = () => {
-  const searchCitySchema = yup.object().shape({
-    city: yup.string().required("Campo obrigatório"),
-  });
-
-  const { register, handleSubmit } = useForm({
-    resolver: yupResolver(searchCitySchema),
-  });
-
-  const onFormSubmit = (formData: any) => {
-    console.log(formData);
-  };
+  const {
+    isOpen: isOpenLogin,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRegister,
+    onOpen: onOpenRegister,
+    onClose: onCloseRegister,
+  } = useDisclosure();
 
   return (
     <Box
       id="header"
-      // bg={"#196db657"}
       pl={{ base: "10px", md: "20px", lg: "40px" }}
       minH={"70px"}
       h={"10vh"}
@@ -61,8 +57,9 @@ const Header = () => {
               bg: "#e54c03",
               color: "white",
             }}
+            onClick={onOpenLogin}
           >
-            Login
+            Entrar
           </Button>
           <Button
             bg={"#f4943e"}
@@ -74,11 +71,18 @@ const Header = () => {
               bg: "#e54c03",
               color: "white",
             }}
+            onClick={onOpenRegister}
           >
-            Sign up
+            Registrar
           </Button>
         </Flex>
       </Flex>
+      <ModalLogin onClose={onCloseLogin} isOpen={isOpenLogin} />
+      <ModalRegister
+        onClose={onCloseRegister}
+        isOpen={isOpenRegister}
+        onOpen={onOpenLogin}
+      />
     </Box>
   );
 };

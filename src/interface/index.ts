@@ -12,9 +12,16 @@ import {
   iLinkUpdate,
   iLinkUpdateResponse,
 } from "./link.interface";
+import { InputProps, iShowPass } from "./input.interface";
 
 export interface iProviderProps {
   children: ReactNode;
+}
+
+interface iStatusModal {
+  isOpen: boolean;
+  onClose: () => void;
+  onOpen?: () => void;
 }
 
 export type {
@@ -27,4 +34,7 @@ export type {
   iLinkResponse,
   iLinkUpdate,
   iLinkUpdateResponse,
+  iStatusModal,
+  InputProps,
+  iShowPass,
 };

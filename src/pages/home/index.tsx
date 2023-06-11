@@ -1,7 +1,7 @@
 import { Button, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import Header from "../../components/NavBar";
 import Illus_Working from "../../assets/Illustration_working.png";
-import { FormHome } from "../../components/Forms";
+import { FormHome } from "../../components/Forms/Home";
 import { useAuth } from "../../context/webContext";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
