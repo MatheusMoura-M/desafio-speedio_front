@@ -11,9 +11,14 @@ export const Home = () => {
   const { link } = useParams();
 
   useEffect(() => {
+    // console.log("montou");
     if (link) {
       getShortenedLinkSpecific(link);
     }
+
+    // return () => {
+    // console.log("desmontou");
+    // };
   }, []);
 
   return (

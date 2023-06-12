@@ -17,6 +17,7 @@ import { useAuth } from "../../context/webContext";
 import ModalLinks from "../Modals/Links/listLinks";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useEffect } from "react";
+import { transform } from "framer-motion";
 
 const Header = () => {
   const {
@@ -36,10 +37,11 @@ const Header = () => {
     setIsLogged,
     userLogged,
     getUserProfile,
+    navigate,
   } = useAuth();
 
-  const BtnsDefault = ["Entrar", "Registrar"];
-  const BtnsIsLogged = ["Meus links", "Sair"];
+  const BtnsDefault = ["Entrar", "Registrar", "Top 100 URLs"];
+  const BtnsIsLogged = ["Meus links", "Top 100 URLs", "Sair"];
 
   useEffect(() => {
     if (token) {
@@ -65,38 +67,83 @@ const Header = () => {
         <Flex
           alignItems={"center"}
           justifyContent={"flex-start"}
-          minW={"60%"}
+          minW={"70%"}
           w={"50%"}
           gap={"1rem"}
         >
           <Text
-            minW={150}
-            h={40.1}
-            fontSize={"26px"}
+            minW={210}
+            h={47}
+            fontSize={"30px"}
             fontWeight={"bold"}
             textShadow={"#00000069 0.1em 0.1em 0.2em"}
             cursor={"pointer"}
+            onClick={() => navigate("/")}
           >
             Link Shortener
           </Text>
-          {isLogged && (
-            <Show breakpoint="(min-width: 640px)">
+          <Show breakpoint="(min-width: 640px)">
+            <Flex gap={"1rem"} ml={"1rem"} alignItems={"flex-end"} h={"35px"}>
+              {userLogged.id && (
+                <Text
+                  role={"group"}
+                  minW={"max-content"}
+                  h={"max-content"}
+                  textAlign={"center"}
+                  fontSize={"17px"}
+                  fontWeight={500}
+                  cursor={"pointer"}
+                  transition={"ease-in-out"}
+                  _hover={{
+                    color: "grey",
+                    transition: "ease-in-out",
+                  }}
+                  onClick={() => {
+                    onOpenLinks();
+                    getUserLinks();
+                  }}
+                >
+                  Meus links
+                  <Text
+                    as={"span"}
+                    h={"2px"}
+                    bg={"#3c8aee"}
+                    w={0}
+                    display={"block"}
+                    transition={".4s"}
+                    _groupHover={{
+                      transition: ".4s",
+                      w: "100%",
+                    }}
+                  />
+                </Text>
+              )}
               <Text
-                minW={150}
+                role={"group"}
+                minW={"max-content"}
                 h={"max-content"}
                 textAlign={"center"}
                 fontSize={"17px"}
-                fontWeight={400}
+                fontWeight={500}
                 cursor={"pointer"}
-                onClick={() => {
-                  onOpenLinks();
-                  getUserLinks();
-                }}
+                onClick={() => navigate("/top100")}
               >
-                Meus links
+                Top 100 URLs
+                <Text
+                  as={"span"}
+                  h={"2px"}
+                  bg={"#3c8aee"}
+                  w={0}
+                  display={"block"}
+                  transition={".4s"}
+                  _groupHover={{
+                    transition: ".4s",
+                    w: "100%",
+                  }}
+                />
               </Text>
-            </Show>
-          )}
+            </Flex>
+          </Show>
         </Flex>
         {isLogged ? (
           // MENU HAMBURGUER IS LOGGED

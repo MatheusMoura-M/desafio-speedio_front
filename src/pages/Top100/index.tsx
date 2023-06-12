@@ -3,13 +3,24 @@ import Header from "../../components/NavBar";
 import Illus_Working from "../../assets/Illustration_working.png";
 import { useAuth } from "../../context/webContext";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
+import { api } from "../../services/api";
 
 export const Top100 = () => {
-  const { allLinks, getAllLinks } = useAuth();
+  const { allLinks, getAllLinks, setAllLinks } = useAuth();
 
-  useEffect(() => {
-    getAllLinks();
-  }, []);
+  const getAllLinksByUseQuery = async () => {
+    const resp = await api.get(`/link`);
+    return resp.data;
+  };
+
+  const { data, status } = useQuery("links", getAllLinksByUseQuery);
+  console.log("DATA", data);
+  console.log("STATUS", status);
+
+  // useEffect(() => {
+  //   getAllLinks();
+  // }, []);
 
   return (
     <Flex flexDir={"column"}>
@@ -36,6 +47,7 @@ export const Top100 = () => {
             w={"100%"}
             alignItems={"center"}
             justifyContent={"center"}
+            borderTopRadius={".4rem"}
           >
             <Heading as={"h2"} size={"md"} color={"#1c3462"}>
               Top 100 de URLs mais visitadas
@@ -52,72 +64,89 @@ export const Top100 = () => {
             <Text w={"50%"} textAlign={"center"}>
               Titúlo
             </Text>
-            <Text w={"20%"} textAlign={"center"}>
+            <Text w={{ base: "25%", xs1: "15%" }} textAlign={"center"}>
               Visitas
             </Text>
           </Flex>
-          <List
+          <Flex
             h={"90%"}
             w={"100%"}
             minH={"max-content"}
             maxH={340}
-            overflowY={"auto"}
-            overflowX={"hidden"}
+            p={"0 12px 10px 12px"}
             bg={"gray.300"}
-            p={"10px 12px"}
-            sx={{
-              "::-webkit-scrollbar": {
-                w: "10px",
-                h: "12px",
-              },
-              "::-webkit-scrollbar-track": {
-                bg: "#1c3462",
-                borderRadius: "10px",
-                w: "10px",
-              },
-              "::-webkit-scrollbar-thumb": {
-                bg: "#3c8aee",
-                borderRadius: "24px",
-              },
-            }}
+            borderBottomRadius={".4rem"}
           >
-            {allLinks.length === 0 ? (
-              <Flex>0</Flex>
-            ) : (
-              allLinks.map((link) => {
-                return (
-                  <ListItem
+            {status === "success" && (
+              <List
+                overflowY={"auto"}
+                overflowX={"hidden"}
+                w={"100%"}
+                h={"100%"}
+                sx={{
+                  "::-webkit-scrollbar": {
+                    w: "10px",
+                    h: "12px",
+                  },
+                  "::-webkit-scrollbar-track": {
+                    bg: "#1c3462",
+                    borderRadius: "10px",
+                    w: "10px",
+                  },
+                  "::-webkit-scrollbar-thumb": {
+                    bg: "#3c8aee",
+                    borderRadius: "24px",
+                  },
+                }}
+              >
+                {data.length === 0 ? (
+                  <Flex
                     display={"flex"}
                     alignItems={"center"}
-                    justifyContent={"space-around"}
-                    key={link.id}
-                    h={45}
+                    justifyContent={"center"}
+                    fontSize={"30px"}
+                    fontWeight={500}
+                    h={"100%"}
                   >
-                    <Text
-                      w={"80%"}
-                      borderBottom={"1px solid black"}
-                      textOverflow={"ellipsis"}
-                      whiteSpace={"nowrap"}
-                      overflow={"hidden"}
-                      h={"100%"}
-                      pt={"10px"}
-                    >
-                      {link.title}
-                    </Text>
-                    <Text
-                      w={"20%"}
-                      h={"100%"}
-                      textAlign={"center"}
-                      borderLeft={"1px solid black"}
-                      pt={"10px"}
-                    >
-                      {link.visits}
-                    </Text>
-                  </ListItem>
-                );
-              })
+                    Sem URLs encurtadas
+                  </Flex>
+                ) : (
+                  data.map((link: any, i: any) => {
+                    return (
+                      <ListItem
+                        display={"flex"}
+                        alignItems={"center"}
+                        justifyContent={"space-around"}
+                        key={link.id}
+                        h={45}
+                      >
+                        <Text
+                          w={"90%"}
+                          borderBottom={"1px solid black"}
+                          textOverflow={"ellipsis"}
+                          whiteSpace={"nowrap"}
+                          overflow={"hidden"}
+                          h={"100%"}
+                          pt={"10px"}
+                        >
+                          {i + 1 + "º) "} {link.title}
+                        </Text>
+                        <Text
+                          w={{ base: "20%", xs1: "10%" }}
+                          h={"100%"}
+                          textAlign={"center"}
+                          borderLeft={"1px solid black"}
+                          pt={"10px"}
+                        >
+                          {link.visits}
+                        </Text>
+                      </ListItem>
+                    );
+                  })
+                )}
+              </List>
             )}
-          </List>
+          </Flex>
         </Flex>
         <Flex
           w={{ base: "90%", md1: "50%" }}

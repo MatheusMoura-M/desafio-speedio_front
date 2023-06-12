@@ -54,6 +54,8 @@ export interface iAuthProviderData {
   onOpenLinks: () => void;
   onCloseLinks: () => void;
   token: string | null;
+  allVisits: number[] | undefined;
+  setAllVisits: Dispatch<SetStateAction<number[] | undefined>>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -71,6 +73,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   );
   const [currentLink, setCurrentLink] = useState({} as iLinkResponse);
   const [allLinks, setAllLinks] = useState([] as iLinkResponse[]);
+  const [allVisits, setAllVisits] = useState<number[]>();
   const [allLinksByUser, setAllLinksByUser] = useState([] as iLinkResponse[]);
 
   // Disclosure
@@ -136,6 +139,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const resp = await api.get(`/link`);
 
       setAllLinks(resp.data);
+      // return resp.data;
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
@@ -308,7 +312,11 @@ export const AuthProvider = ({ children }: iProviderProps) => {
 
   const MenuHamburguer = ({ children }: iProviderProps) => (
     <MenuItem
-      display={{ base: "flex", sm2: "none" }}
+      display={
+        children === "Meus links" || children === "Top 100 URLs"
+          ? { base: "flex", sm2: "none" }
+          : "flex"
+      }
       alignSelf={"center"}
       justifyContent={"center"}
       bg={"gray.200"}
@@ -336,6 +344,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           ? onOpenLogin
           : children === "Registrar"
           ? onOpenRegister
+          : children === "Top 100 URLs"
+          ? () => navigate("/top100")
           : () => {
               localStorage.removeItem("@token");
               setIsLogged(false);
@@ -384,6 +394,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         isOpenLinks,
         onOpenLinks,
         token,
+        allVisits,
+        setAllVisits,
       }}
     >
       {children}
