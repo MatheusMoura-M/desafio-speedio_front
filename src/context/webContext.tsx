@@ -139,7 +139,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       const resp = await api.get(`/link`);
 
       setAllLinks(resp.data);
-      // return resp.data;
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {

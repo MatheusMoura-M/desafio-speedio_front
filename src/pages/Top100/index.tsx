@@ -7,20 +7,12 @@ import { useQuery } from "react-query";
 import { api } from "../../services/api";
 
 export const Top100 = () => {
-  const { allLinks, getAllLinks, setAllLinks } = useAuth();
-
   const getAllLinksByUseQuery = async () => {
     const resp = await api.get(`/link`);
     return resp.data;
   };
 
   const { data, status } = useQuery("links", getAllLinksByUseQuery);
-  console.log("DATA", data);
-  console.log("STATUS", status);
-
-  // useEffect(() => {
-  //   getAllLinks();
-  // }, []);
 
   return (
     <Flex flexDir={"column"}>
