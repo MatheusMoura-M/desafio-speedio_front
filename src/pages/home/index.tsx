@@ -5,20 +5,41 @@ import { FormHome } from "../../components/Forms/Home";
 import { useAuth } from "../../context/webContext";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { api } from "../../services/api";
 
 export const Home = () => {
-  const { currentLink, getShortenedLinkSpecific } = useAuth();
+  const { currentLink, getShortenedLinkSpecific, appear, setCurrentLink } =
+    useAuth();
   const { link } = useParams();
 
   useEffect(() => {
-    // console.log("montou");
+    console.log("montou");
+    const source = axios.CancelToken.source();
     if (link) {
-      getShortenedLinkSpecific(link);
+      api
+        .get(`/link/${link}`, {
+          cancelToken: source.token,
+        })
+        .then((resp) => {
+          setCurrentLink(resp.data);
+          window.location.href = resp.data.original_link;
+        })
+        .catch((error) => {
+          console.log(error);
+          if (axios.isCancel(error)) return;
+          if (axios.isAxiosError(error)) {
+            toast.error(error.response?.data.error, {
+              autoClose: 1000,
+            });
+          }
+        });
     }
-
-    // return () => {
-    // console.log("desmontou");
-    // };
+    return () => {
+      console.log("desmontou");
+      source.cancel();
+    };
   }, []);
 
   return (
@@ -55,6 +76,7 @@ export const Home = () => {
           <FormHome />
           {currentLink.original_link && (
             <Flex
+              display={appear ? "flex" : "none"}
               bg={"#f4943e"}
               maxW={"100%"}
               minH={95}

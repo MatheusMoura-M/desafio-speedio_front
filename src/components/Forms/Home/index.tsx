@@ -8,10 +8,17 @@ import { iLinkRequest } from "../../../interface";
 import { Input } from "../../Input";
 
 export const FormHome = () => {
-  const { onShortenLink } = useAuth();
+  const { onShortenLink, setAppear } = useAuth();
 
   const [inputTitle, setInputTitle] = useState("");
   const [inputLink, setInputLink] = useState("");
+
+  const sumir = () => {
+    setAppear(true);
+    setTimeout(() => {
+      setAppear(false);
+    }, 5000);
+  };
 
   const {
     register,
@@ -26,6 +33,7 @@ export const FormHome = () => {
 
     setInputLink("");
     setInputTitle("");
+    sumir();
   };
 
   return (

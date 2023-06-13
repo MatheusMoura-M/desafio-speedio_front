@@ -32,7 +32,7 @@ export interface iAuthProviderData {
   setUserLogged: Dispatch<SetStateAction<iUserResponse>>;
   onShortenLink: (data: iLinkRequest) => Promise<void>;
   onUpdateShortenedLink: (data: iLinkUpdate, id: string) => Promise<void>;
-  getShortenedLinkSpecific: (id: string) => Promise<void>;
+  getShortenedLinkSpecific: (shortened_link: string) => Promise<() => void>;
   onDeleteShortenedLink: (id: string) => Promise<void>;
   allLinksByUser: iLinkResponse[];
   setAllLinksByUser: Dispatch<SetStateAction<iLinkResponse[]>>;
@@ -54,6 +54,8 @@ export interface iAuthProviderData {
   token: string | null;
   allVisits: number[] | undefined;
   setAllVisits: Dispatch<SetStateAction<number[] | undefined>>;
+  appear: boolean;
+  setAppear: Dispatch<SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<iAuthProviderData>(
@@ -73,6 +75,7 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   const [allLinks, setAllLinks] = useState([] as iLinkResponse[]);
   const [allVisits, setAllVisits] = useState<number[]>();
   const [allLinksByUser, setAllLinksByUser] = useState([] as iLinkResponse[]);
+  const [appear, setAppear] = useState(false);
 
   // Disclosure
   const {
@@ -244,19 +247,25 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const getShortenedLinkSpecific = async (shortened_link: string) => {
-    try {
-      const resp = await api.get(`/link/${shortened_link}`);
-
-      setCurrentLink(resp.data);
-      window.location.href = resp.data.original_link;
-    } catch (error) {
-      console.log(error);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error, {
-          autoClose: 1000,
-        });
-      }
-    }
+    const source = axios.CancelToken.source();
+    await api
+      .get(`/link/${shortened_link}`, {
+        cancelToken: source.token,
+      })
+      .then((resp) => {
+        setCurrentLink(resp.data);
+        window.location.href = resp.data.original_link;
+      })
+      .catch((error) => {
+        console.log(error);
+        if (axios.isCancel(error)) return;
+        if (axios.isAxiosError(error)) {
+          toast.error(error.response?.data.error, {
+            autoClose: 1000,
+          });
+        }
+      });
+    return () => source.cancel();
   };
 
   const onDeleteShortenedLink = async (id: string) => {
@@ -366,6 +375,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         token,
         allVisits,
         setAllVisits,
+        appear,
+        setAppear,
       }}
     >
       {children}

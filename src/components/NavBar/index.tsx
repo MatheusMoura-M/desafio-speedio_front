@@ -9,7 +9,6 @@ import {
   MenuList,
   Show,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import ModalLogin from "../Modals/Login";
 import ModalRegister from "../Modals/Register";
@@ -17,9 +16,14 @@ import { useAuth } from "../../context/webContext";
 import ModalLinks from "../Modals/Links/listLinks";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useEffect } from "react";
-import { transform } from "framer-motion";
 
 const Header = () => {
+  const isPageTop100 = window.location.href.slice(22) === "top100";
+
+  const BtnsDefault = ["Entrar", "Registrar", "Top 100 URLs"];
+  const BtnsIsLogged = ["Meus links", "Top 100 URLs", "Sair", "Excluir conta"];
+  const BtnsIsLoggedWithoutTop100 = ["Meus links", "Sair", "Excluir conta"];
+
   const {
     getUserLinks,
     MenuHamburguer,
@@ -39,9 +43,6 @@ const Header = () => {
     getUserProfile,
     navigate,
   } = useAuth();
-
-  const BtnsDefault = ["Entrar", "Registrar", "Top 100 URLs"];
-  const BtnsIsLogged = ["Meus links", "Top 100 URLs", "Sair", "Excluir conta"];
 
   useEffect(() => {
     if (token) {
@@ -94,8 +95,9 @@ const Header = () => {
                   fontWeight={500}
                   cursor={"pointer"}
                   transition={"ease-in-out"}
+                  color={"gray.600"}
                   _hover={{
-                    color: "grey",
+                    color: "gray.900",
                     transition: "ease-in-out",
                   }}
                   onClick={() => {
@@ -118,30 +120,38 @@ const Header = () => {
                   />
                 </Text>
               )}
-              <Text
-                role={"group"}
-                minW={"max-content"}
-                h={"max-content"}
-                textAlign={"center"}
-                fontSize={"17px"}
-                fontWeight={500}
-                cursor={"pointer"}
-                onClick={() => navigate("/top100")}
-              >
-                Top 100 URLs
+              {!isPageTop100 && (
                 <Text
-                  as={"span"}
-                  h={"2px"}
-                  bg={"#3c8aee"}
-                  w={0}
-                  display={"block"}
-                  transition={".4s"}
-                  _groupHover={{
-                    transition: ".4s",
-                    w: "100%",
+                  role={"group"}
+                  minW={"max-content"}
+                  h={"max-content"}
+                  textAlign={"center"}
+                  fontSize={"17px"}
+                  fontWeight={500}
+                  cursor={"pointer"}
+                  onClick={() => navigate("/top100")}
+                  transition={"ease-in-out"}
+                  color={"gray.600"}
+                  _hover={{
+                    color: "gray.900",
+                    transition: "ease-in-out",
                   }}
-                />
-              </Text>
+                >
+                  Top 100 URLs
+                  <Text
+                    as={"span"}
+                    h={"2px"}
+                    bg={"#3c8aee"}
+                    w={0}
+                    display={"block"}
+                    transition={".4s"}
+                    _groupHover={{
+                      transition: ".4s",
+                      w: "100%",
+                    }}
+                  />
+                </Text>
+              )}
             </Flex>
           </Show>
         </Flex>
@@ -201,9 +211,13 @@ const Header = () => {
                 pt={"0px"}
                 pb={{ base: ".5rem", sm2: "0rem" }}
               >
-                {BtnsIsLogged.map((link) => (
-                  <MenuHamburguer key={link}>{link}</MenuHamburguer>
-                ))}
+                {isPageTop100
+                  ? BtnsIsLoggedWithoutTop100.map((link) => (
+                      <MenuHamburguer key={link}>{link}</MenuHamburguer>
+                    ))
+                  : BtnsIsLogged.map((link) => (
+                      <MenuHamburguer key={link}>{link}</MenuHamburguer>
+                    ))}
               </MenuList>
             </Menu>
           </>
