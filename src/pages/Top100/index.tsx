@@ -1,8 +1,6 @@
 import { Flex, Image, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import Header from "../../components/NavBar";
 import Illus_Working from "../../assets/Illustration_working.png";
-import { useAuth } from "../../context/webContext";
-import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { api } from "../../services/api";
 
@@ -12,7 +10,9 @@ export const Top100 = () => {
     return resp.data;
   };
 
-  const { data, status } = useQuery("links", getAllLinksByUseQuery);
+  const { data, status } = useQuery("links", getAllLinksByUseQuery, {
+    refetchInterval: 2000,
+  });
 
   return (
     <Flex flexDir={"column"}>
