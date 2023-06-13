@@ -26,7 +26,6 @@ export interface iAuthProviderData {
   onRegisterSubmit: (dataRegister: iUserRequest) => Promise<void>;
   onLogin: (user: iUserLogin) => Promise<void>;
   onDeleteUser: () => Promise<void>;
-  getUserSpecific: (id: string) => Promise<void>;
   isLogged: boolean;
   setIsLogged: Dispatch<SetStateAction<boolean>>;
   userLogged: iUserResponse;
@@ -41,7 +40,6 @@ export interface iAuthProviderData {
   setAllLinks: Dispatch<SetStateAction<iLinkResponse[]>>;
   currentLink: iLinkResponse;
   setCurrentLink: Dispatch<SetStateAction<iLinkResponse>>;
-  getAllLinks: () => Promise<void>;
   getUserLinks: () => Promise<void>;
   MenuHamburguer: ({ children }: iProviderProps) => JSX.Element;
   isOpenLogin: boolean;
@@ -134,21 +132,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
     }
   };
 
-  const getAllLinks = async () => {
-    try {
-      const resp = await api.get(`/link`);
-
-      setAllLinks(resp.data);
-    } catch (error) {
-      console.log(error);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error, {
-          autoClose: 1000,
-        });
-      }
-    }
-  };
-
   const onRegisterSubmit = async (dataRegister: iUserRequest) => {
     try {
       await api.post("/user", dataRegister);
@@ -197,26 +180,14 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       });
 
       localStorage.removeItem("@token");
+      setIsLogged(false);
+      setUserLogged({} as iUserResponse);
+      navigate("/");
     } catch (error) {
       console.log(error);
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error(error.response?.data.error.errors[0], {
-          autoClose: 1000,
-        });
-      }
-    }
-  };
-
-  const getUserSpecific = async (id: string) => {
-    try {
-      const resp = await api.get(`/user/${id}`);
-
-      // setOwnerOfAdSelected(resp.data);
-    } catch (error) {
-      console.log(error);
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data.error, {
           autoClose: 1000,
         });
       }
@@ -345,6 +316,8 @@ export const AuthProvider = ({ children }: iProviderProps) => {
           ? onOpenRegister
           : children === "Top 100 URLs"
           ? () => navigate("/top100")
+          : children === "Excluir conta"
+          ? onDeleteUser
           : () => {
               localStorage.removeItem("@token");
               setIsLogged(false);
@@ -362,7 +335,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
       value={{
         navigate,
         getUserProfile,
-        getUserSpecific,
         onLogin,
         onDeleteUser,
         onRegisterSubmit,
@@ -379,7 +351,6 @@ export const AuthProvider = ({ children }: iProviderProps) => {
         currentLink,
         setCurrentLink,
         allLinks,
-        getAllLinks,
         setAllLinks,
         getUserLinks,
         MenuHamburguer,

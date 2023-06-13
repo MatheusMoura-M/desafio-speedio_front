@@ -41,7 +41,7 @@ const Header = () => {
   } = useAuth();
 
   const BtnsDefault = ["Entrar", "Registrar", "Top 100 URLs"];
-  const BtnsIsLogged = ["Meus links", "Top 100 URLs", "Sair"];
+  const BtnsIsLogged = ["Meus links", "Top 100 URLs", "Sair", "Excluir conta"];
 
   useEffect(() => {
     if (token) {

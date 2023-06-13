@@ -142,7 +142,8 @@ const ModalLinks = ({ isOpen, onClose }: iStatusModal) => {
                                 }}
                                 onClick={() => {
                                   navigator.clipboard.writeText(
-                                    window.location.href + link.shortened_link
+                                    window.location.href.replace("top100", "") +
+                                      link.shortened_link
                                   );
                                   setActiveCopy(true);
                                   setCurrentLink(link);
