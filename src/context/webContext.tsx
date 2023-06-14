@@ -32,7 +32,7 @@ export interface iAuthProviderData {
   setUserLogged: Dispatch<SetStateAction<iUserResponse>>;
   onShortenLink: (data: iLinkRequest) => Promise<void>;
   onUpdateShortenedLink: (data: iLinkUpdate, id: string) => Promise<void>;
-  getShortenedLinkSpecific: (shortened_link: string) => Promise<() => void>;
+  getShortenedLinkSpecific: (shortened_link: string) => Promise<void>;
   onDeleteShortenedLink: (id: string) => Promise<void>;
   allLinksByUser: iLinkResponse[];
   setAllLinksByUser: Dispatch<SetStateAction<iLinkResponse[]>>;
@@ -247,25 +247,19 @@ export const AuthProvider = ({ children }: iProviderProps) => {
   };
 
   const getShortenedLinkSpecific = async (shortened_link: string) => {
-    const source = axios.CancelToken.source();
-    await api
-      .get(`/link/${shortened_link}`, {
-        cancelToken: source.token,
-      })
-      .then((resp) => {
-        setCurrentLink(resp.data);
-        window.location.href = resp.data.original_link;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (axios.isCancel(error)) return;
-        if (axios.isAxiosError(error)) {
-          toast.error(error.response?.data.error, {
-            autoClose: 1000,
-          });
-        }
-      });
-    return () => source.cancel();
+    try {
+      const resp = await api.get(`/link/${shortened_link}`);
+
+      setCurrentLink(resp.data);
+      window.location.href = resp.data.original_link;
+    } catch (error) {
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.error, {
+          autoClose: 1000,
+        });
+      }
+    }
   };
 
   const onDeleteShortenedLink = async (id: string) => {

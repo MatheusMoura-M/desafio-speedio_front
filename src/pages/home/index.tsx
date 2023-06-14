@@ -5,9 +5,6 @@ import { FormHome } from "../../components/Forms/Home";
 import { useAuth } from "../../context/webContext";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { api } from "../../services/api";
 
 export const Home = () => {
   const { currentLink, getShortenedLinkSpecific, appear, setCurrentLink } =
@@ -15,31 +12,9 @@ export const Home = () => {
   const { link } = useParams();
 
   useEffect(() => {
-    console.log("montou");
-    const source = axios.CancelToken.source();
     if (link) {
-      api
-        .get(`/link/${link}`, {
-          cancelToken: source.token,
-        })
-        .then((resp) => {
-          setCurrentLink(resp.data);
-          window.location.href = resp.data.original_link;
-        })
-        .catch((error) => {
-          console.log(error);
-          if (axios.isCancel(error)) return;
-          if (axios.isAxiosError(error)) {
-            toast.error(error.response?.data.error, {
-              autoClose: 1000,
-            });
-          }
-        });
+      getShortenedLinkSpecific(link);
     }
-    return () => {
-      console.log("desmontou");
-      source.cancel();
-    };
   }, []);
 
   return (
@@ -78,6 +53,7 @@ export const Home = () => {
             <Flex
               display={appear ? "flex" : "none"}
               bg={"#f4943e"}
+              minW={"100%"}
               maxW={"100%"}
               minH={95}
               borderRadius={".5rem"}
@@ -98,7 +74,6 @@ export const Home = () => {
                   borderBottom={"1px solid black"}
                   h={"50%"}
                   alignItems={"center"}
-                  justifyContent={"center"}
                 >
                   <Text maxW={100} minW={98} color={"grey.0"} fontWeight={500}>
                     Link original:&nbsp;
