@@ -46,10 +46,7 @@ ou
   npm i
 ``` 
 
-### 3️⃣- Faça uma cópia do arquivo ".env.example", nomeie como ".env" e preencha o campo "PORT" 
-
-
-### 4️⃣- Execute o servidor 
+### 3️⃣- Execute o servidor 
 
 ```
   yarn dev
