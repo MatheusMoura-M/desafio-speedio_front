@@ -51,3 +51,6 @@ ou
 ```
   yarn dev
 ```
+
+### Partes em falta
+- testes end-to-end
