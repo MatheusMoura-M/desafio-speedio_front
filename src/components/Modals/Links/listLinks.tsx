@@ -36,7 +36,7 @@ const ModalLinks = ({ isOpen, onClose }: iStatusModal) => {
       <ModalOverlay />
       <ModalContent
         alignSelf={"center"}
-        bg={"#f4943e"}
+        bg={"orange.1"}
         w={"90%"}
         minW={{ base: "90%", md: 700 }}
         minH={"max-content"}
@@ -45,7 +45,7 @@ const ModalLinks = ({ isOpen, onClose }: iStatusModal) => {
         <ModalHeader
           fontSize={"16px"}
           color={"black"}
-          bg={"#e54c03"}
+          bg={"orange.4"}
           borderTopRadius={"md"}
         >
           Links

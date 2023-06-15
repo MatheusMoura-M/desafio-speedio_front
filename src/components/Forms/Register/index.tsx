@@ -65,7 +65,7 @@ export const FormRegister = ({
           placeholder="Digite seu nome"
           color={"black"}
           w={"100%"}
-          bg_hover={"#e54c03d6"}
+          bg_hover={"orange.3"}
           register={register}
           _placeholder={{
             color: "black",
@@ -82,7 +82,7 @@ export const FormRegister = ({
           register={register}
           placeholder="Digite seu email"
           color={"black"}
-          bg_hover={"#e54c03d6"}
+          bg_hover={"orange.3"}
           w={"100%"}
           _placeholder={{
             color: "black",
@@ -101,7 +101,7 @@ export const FormRegister = ({
           showPass
           placeholder="Digite sua senha"
           color={"black"}
-          bg_hover={"#e54c03d6"}
+          bg_hover={"orange.3"}
           w={"100%"}
           _placeholder={{
             color: "black",
@@ -113,10 +113,10 @@ export const FormRegister = ({
         />
       </Flex>
       <Button
-        bg={"#1c3462"}
+        bg={"blue.1"}
         color={"white"}
         _hover={{
-          bg: "#3c8aee",
+          bg: "blue.2",
           color: "black",
         }}
         type="submit"

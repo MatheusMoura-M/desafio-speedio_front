@@ -59,7 +59,7 @@ export const FormLogin = ({ onClose }: iStatusModalLoginProps) => {
           color={"black"}
           w={"100%"}
           register={register}
-          bg_hover={"#e54c03d6"}
+          bg_hover={"orange.3"}
           _placeholder={{
             color: "black",
           }}
@@ -76,7 +76,7 @@ export const FormLogin = ({ onClose }: iStatusModalLoginProps) => {
           register={register}
           showPass
           placeholder="Digite sua senha"
-          bg_hover={"#e54c03d6"}
+          bg_hover={"orange.3"}
           color={"black"}
           w={"100%"}
           _placeholder={{
@@ -89,10 +89,10 @@ export const FormLogin = ({ onClose }: iStatusModalLoginProps) => {
         />
       </Flex>
       <Button
-        bg={"#1c3462"}
+        bg={"blue.1"}
         color={"white"}
         _hover={{
-          bg: "#3c8aee",
+          bg: "blue.2",
           color: "black",
         }}
         type="submit"

@@ -33,12 +33,6 @@ const breakpoints = {
 const custonTheme = extendTheme({
   breakpoints,
   colors: {
-    brand: {
-      1: "#4529E6",
-      2: "#5126EA",
-      3: "#B0A6F0",
-      4: "#EDEAFD",
-    },
     grey: {
       0: "#0B0D0D",
       1: "#212529",
@@ -51,6 +45,16 @@ const custonTheme = extendTheme({
     },
     whiteFixed: {
       1: "#FFFFFF",
+    },
+    blue: {
+      1: "#1c3462",
+      2: "#3c8aee",
+    },
+    orange: {
+      1: "#f4943e",
+      2: "#ffb05d",
+      3: "#e54c03d6",
+      4: "#e54c03",
     },
     alert: {
       1: "#CD2B31",
