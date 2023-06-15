@@ -109,7 +109,7 @@ const Header = () => {
                   <Text
                     as={"span"}
                     h={"2px"}
-                    bg={"#3c8aee"}
+                    bg={"blue.2"}
                     w={0}
                     display={"block"}
                     transition={".4s"}
@@ -141,7 +141,7 @@ const Header = () => {
                   <Text
                     as={"span"}
                     h={"2px"}
-                    bg={"#3c8aee"}
+                    bg={"blue.2"}
                     w={0}
                     display={"block"}
                     transition={".4s"}
@@ -235,13 +235,13 @@ const Header = () => {
                 pr={[".5rem", "1rem", null, "1.7rem"]}
               >
                 <Button
-                  bg={"#f4943e"}
+                  bg={"orange.1"}
                   type="submit"
                   borderRadius={"2rem"}
                   transition={"0.3s"}
                   _hover={{
                     transition: "0.3s",
-                    bg: "#e54c03",
+                    bg: "orange.4",
                     color: "white",
                   }}
                   onClick={onOpenLogin}
@@ -249,13 +249,13 @@ const Header = () => {
                   Entrar
                 </Button>
                 <Button
-                  bg={"#f4943e"}
+                  bg={"orange.1"}
                   borderRadius={"2rem"}
                   type="submit"
                   transition={"0.3s"}
                   _hover={{
                     transition: "0.3s",
-                    bg: "#e54c03",
+                    bg: "orange.4",
                     color: "white",
                   }}
                   onClick={onOpenRegister}

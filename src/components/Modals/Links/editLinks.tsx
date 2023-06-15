@@ -22,7 +22,7 @@ const ModalEditLinks = ({ isOpen, onClose, elem }: iStatusModalEdit) => {
       <ModalOverlay />
       <ModalContent
         alignSelf={"center"}
-        bg={"#f4943e"}
+        bg={"orange.1"}
         w={"85%"}
         minW={{ base: "80%", sm: 400 }}
         minH={150}
@@ -30,7 +30,7 @@ const ModalEditLinks = ({ isOpen, onClose, elem }: iStatusModalEdit) => {
         <ModalHeader
           fontSize={"16px"}
           color={"black"}
-          bg={"#e54c03"}
+          bg={"orange.4"}
           borderTopRadius={"md"}
         >
           Editar Titúlo

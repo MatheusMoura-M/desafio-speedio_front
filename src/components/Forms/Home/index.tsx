@@ -43,7 +43,7 @@ export const FormHome = () => {
       m={"2rem 0 0.5rem 0"}
       justifyContent={"center"}
       alignItems={"flex-end"}
-      bg={"#1c3462"}
+      bg={"blue.1"}
       p={"1rem"}
       borderRadius={".5rem"}
       gap={"1rem"}
@@ -100,7 +100,7 @@ export const FormHome = () => {
         />
       </Flex>
       <Button
-        bg={"#3c8aee"}
+        bg={"blue.2"}
         _hover={{
           bg: "#87a8d3",
         }}

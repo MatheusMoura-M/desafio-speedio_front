@@ -52,7 +52,7 @@ export const Home = () => {
           {currentLink.original_link && (
             <Flex
               display={appear ? "flex" : "none"}
-              bg={"#f4943e"}
+              bg={"orange.1"}
               minW={"100%"}
               maxW={"100%"}
               minH={95}
@@ -128,7 +128,7 @@ export const Home = () => {
                     transition={".3s"}
                     px={".5rem"}
                     _hover={{
-                      bg: "#ffb05d",
+                      bg: "orange.2",
                       transition: ".3s",
                     }}
                     onClick={(e) => {

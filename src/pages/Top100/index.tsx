@@ -35,13 +35,13 @@ export const Top100 = () => {
         >
           <Flex
             h={47}
-            bg={"#3c8aee"}
+            bg={"blue.2"}
             w={"100%"}
             alignItems={"center"}
             justifyContent={"center"}
             borderTopRadius={".4rem"}
           >
-            <Heading as={"h2"} size={"md"} color={"#1c3462"}>
+            <Heading as={"h2"} size={"md"} color={"blue.1"}>
               Top 100 de URLs mais visitadas
             </Heading>
           </Flex>
@@ -81,12 +81,12 @@ export const Top100 = () => {
                     h: "12px",
                   },
                   "::-webkit-scrollbar-track": {
-                    bg: "#1c3462",
+                    bg: "blue.1",
                     borderRadius: "10px",
                     w: "10px",
                   },
                   "::-webkit-scrollbar-thumb": {
-                    bg: "#3c8aee",
+                    bg: "blue.2",
                     borderRadius: "24px",
                   },
                 }}
